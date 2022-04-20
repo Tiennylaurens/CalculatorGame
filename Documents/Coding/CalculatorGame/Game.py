@@ -8,7 +8,7 @@ class Game:
         self.rounds = rounds
         self.player_rounds = 0
         self.number = randrange(1,11)
-        self.operator = randrange(4,5)
+        self.operator = randrange(1,5)
         self.player_number = None
         self.player_operator = None
 
@@ -20,7 +20,7 @@ class Game:
         self.number = randrange(1,11)
 
     def set_operator(self):
-        self.operator = randrange(4,5)
+        self.operator = randrange(1,5)
 
     def up_rounds(self):
         self.player_rounds += 1
