@@ -29,7 +29,7 @@ class CalculatorGames:
         return round(result, self.round_off)
     
     def divide(self, num1, num2):
-        result = num1 / num2
+        result = float(num1) / float(num2)
         self.calculations += 1
         return round(result, self.round_off)
 

@@ -1,7 +1,7 @@
 from random import randrange
 from Calculator import CalculatorGames
 
-calc = CalculatorGames(2)
+calc = CalculatorGames(5)
 
 class Game:
     def __init__(self, rounds):
@@ -11,6 +11,7 @@ class Game:
         self.operator = None
         self.player_number = None
         self.player_operator = None
+        self.difficulty = None
     
     def set_difficulty(self, difficulty):
         self.difficulty = difficulty
@@ -22,7 +23,7 @@ class Game:
             self.operator = randrange(1,5)
         if self.difficulty == 3:
             self.number = randrange(1,51)
-            self.operator = randrange(3,7)
+            self.operator = randrange(3,6)
 
 
 
@@ -39,7 +40,7 @@ class Game:
             self.operator = randrange(1,5)
         if self.difficulty == 3:
             self.number = randrange(1,51)
-            self.operator = randrange(3,7)
+            self.operator = randrange(3,6)
 
     def up_rounds(self):
         self.player_rounds += 1
@@ -77,7 +78,7 @@ class Game:
         if self.difficulty == 2:
             operation = randrange(1,5)
         if self.difficulty == 3:
-            operation = randrange(1,7)
+            operation = randrange(1,6)
 
         if operation == 1:
             result = calc.add(num1, num2)
@@ -93,17 +94,17 @@ class Game:
             result = calc.modular(num1, num2)
         
         if self.operator == 1:
-            act = result + self.number
+            act = float(result) + float(self.number)
         elif self.operator == 2:
-            act = result - self.number
+            act = float(result) - float(self.number)
         elif self.operator == 3:
-            act = result * self.number
+            act = float(result) * float(self.number)
         elif self.operator == 4:
-            act = result / self.number
+            act = float(result) / float(self.number)
         elif self.operator == 5:
-            act = result ** self.number
+            act = float(result) ** float(self.number)
         else: 
-            act = result % self.number
+            act = float(result) % float(self.number)
         
         if operation == 1:
             print("{} + {} = {}".format(num1, num2, act))
