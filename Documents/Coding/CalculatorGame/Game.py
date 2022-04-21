@@ -1,26 +1,45 @@
 from random import randrange
 from Calculator import CalculatorGames
-
+1
 calc = CalculatorGames(0)
 
 class Game:
     def __init__(self, rounds):
         self.rounds = rounds
         self.player_rounds = 0
-        self.number = randrange(1,11)
-        self.operator = randrange(1,5)
+        self.number = None
+        self.operator = None
         self.player_number = None
         self.player_operator = None
+    
+    def set_difficulty(self, difficulty):
+        self.difficulty = difficulty
+        if self.difficulty == 1:
+            self.number = randrange(1,11)
+            self.operator = randrange(1,3)
+        if self.difficulty == 2:
+            self.number = randrange(1,21)
+            self.operator = randrange(1,5)
+        if self.difficulty == 3:
+            self.number = randrange(1,51)
+            self.operator = randrange(3,7)
+
+
 
     def clear_player(self):
         self.player_operator = None
         self.player_number = None
 
-    def set_number(self):
-        self.number = randrange(1,11)
-
-    def set_operator(self):
-        self.operator = randrange(1,5)
+    def set_new(self):
+        if self.difficulty == 1:
+            self.number = randrange(1,11)
+            self.operator = randrange(1,3)
+        if self.difficulty == 2:
+            self.number = randrange(1,21)
+            self.operator = randrange(1,5)
+        if self.difficulty == 3:
+            self.number = randrange(1,51)
+            self.operator = randrange(3,7)
 
     def up_rounds(self):
         self.player_rounds += 1
@@ -52,14 +71,18 @@ class Game:
             return result - self.number
         elif self.operator == 3:
             return result * self.number
-        else:
+        elif self.operator == 4:
             return result / self.number
+        elif self.operator == 5:
+            return result ** self.number
+        else: 
+            return result % self.number
     
     def play(self):
         while self.number != self.player_number or self.operator != self.player_operator:
             print(self.calc())
-            player_operator = input("What do you think the operator is: Add=1, Substract=2, Multiply=3, Divide=4: ")
-            player_number = input("what do you think the number is, Choose between 1 and 10: ")
+            player_operator = input("What do you think the operator is: Add=1, Substract=2, Multiply=3, Divide=4, To the power of=5, Modulo=6: ")
+            player_number = input("what do you think the number is: ")
             self.set_player_operator(player_operator)
             self.set_player_number(player_number)
             if self.player_number != self.number:
@@ -69,11 +92,11 @@ class Game:
         print("Good job, You got them both right!")
         self.up_rounds()
         self.clear_player()
-        self.set_number()
-        self.set_operator()
+        self.set_new()
 
 game = Game(5)
+game.set_difficulty(input("Choose your difficulty: 1=easy 2=normal 3=hard: "))
 while game.player_rounds is not game.rounds:
     game.play()
-print("You won")
+print("You won!")
 
