@@ -1,7 +1,7 @@
 from random import randrange
 from Calculator import CalculatorGames
-1
-calc = CalculatorGames(0)
+
+calc = CalculatorGames(2)
 
 class Game:
     def __init__(self, rounds):
@@ -51,9 +51,34 @@ class Game:
         self.player_operator = number
 
     def calc(self):
-        num1 = input("num1: ")
-        num2 = input("num2: ")
-        operation = input("Add=1, Substract=2, Multiply=3, Divide=4: ")
+        num1 = 0
+        num2 = 0
+        operation = 0
+        result = 0
+        act = 0
+        
+        if self.difficulty == 1:
+            num1 = randrange(1,11)
+        elif self.difficulty == 2:
+            num1 = randrange(1,21)
+        elif self.difficulty == 3:
+            num1 = randrange(1,51)
+       
+        
+        if self.difficulty == 1:
+            num2 = randrange(1,11)
+        if self.difficulty == 2:
+            num2 = randrange(1,21)
+        if self.difficulty == 3:
+            num2 = randrange(1,51)
+
+        if self.difficulty == 1:
+            operation = randrange(1,3)
+        if self.difficulty == 2:
+            operation = randrange(1,5)
+        if self.difficulty == 3:
+            operation = randrange(1,7)
+
         if operation == 1:
             result = calc.add(num1, num2)
         elif operation == 2:
@@ -62,25 +87,40 @@ class Game:
             result = calc.multiply(num1, num2)
         elif operation == 4:
             result = calc.divide(num1, num2)
+        elif operation == 5:
+            result = calc.to_the_power(num1, num2)
         else: 
-            print("Unvalid input, Choose a number between 1 and 4 for the operator")
+            result = calc.modular(num1, num2)
         
         if self.operator == 1:
-            return result + self.number
+            act = result + self.number
         elif self.operator == 2:
-            return result - self.number
+            act = result - self.number
         elif self.operator == 3:
-            return result * self.number
+            act = result * self.number
         elif self.operator == 4:
-            return result / self.number
+            act = result / self.number
         elif self.operator == 5:
-            return result ** self.number
+            act = result ** self.number
         else: 
-            return result % self.number
+            act = result % self.number
+        
+        if operation == 1:
+            print("{} + {} = {}".format(num1, num2, act))
+        elif operation == 2:
+            print("{} - {} = {}".format(num1, num2, act))
+        elif operation == 3:
+            print("{} * {} = {}".format(num1, num2, act))
+        elif operation == 4:
+            print("{} / {} = {}".format(num1, num2, act))
+        elif operation == 5:
+            print("{} ^ {} = {}".format(num1, num2, act))
+        else: 
+            print("{} % {} = {}".format(num1, num2, act))
     
     def play(self):
         while self.number != self.player_number or self.operator != self.player_operator:
-            print(self.calc())
+            self.calc()
             player_operator = input("What do you think the operator is: Add=1, Substract=2, Multiply=3, Divide=4, To the power of=5, Modulo=6: ")
             player_number = input("what do you think the number is: ")
             self.set_player_operator(player_operator)
@@ -93,7 +133,6 @@ class Game:
         self.up_rounds()
         self.clear_player()
         self.set_new()
-
 game = Game(5)
 game.set_difficulty(input("Choose your difficulty: 1=easy 2=normal 3=hard: "))
 while game.player_rounds is not game.rounds:
