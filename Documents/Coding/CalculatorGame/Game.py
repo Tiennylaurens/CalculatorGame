@@ -138,8 +138,8 @@ class Game:
     def play(self):
         while self.number != self.player_number or self.operator != self.player_operator:
             self.calc()
-            player_operator = input("What do you think the operator is: Add=1, Substract=2, Multiply=3, Divide=4, To the power of=5, Modulo=6: ")
-            player_number = input("what do you think the number is: ")
+            player_operator = input("\nWhat do you think the operator is: Add=1, Substract=2, Multiply=3, Divide=4, To the power of=5, Modulo=6: ")
+            player_number = input("\nwhat do you think the number is: ")
             self.set_player_operator(player_operator)
             self.set_player_number(player_number)
             if self.player_number != self.number:
@@ -163,8 +163,7 @@ class Game:
         self.set_end()
         self.calculate_time()
         print("\nCongratulations!\nYou won!")
-        calcs = calc.get_calculations()
-        print("It took you {} calculations and {} seconds".format(calcs, self.time))
+        print("It took you {} calculations and {} seconds".format(calc.get_calculations(), self.time))
         
 game = Game(1)
 game.start_game()
