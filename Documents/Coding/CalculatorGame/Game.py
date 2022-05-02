@@ -1,5 +1,6 @@
 from random import randrange
 from Calculator import CalculatorGames
+import time
 
 calc = CalculatorGames(5)
 
@@ -12,6 +13,21 @@ class Game:
         self.player_number = None
         self.player_operator = None
         self.difficulty = None
+        self.start = 0
+        self.end = 0
+        self.time = 0
+    
+    def set_start(self):
+        self.start = int(time.time())
+    
+    def set_end(self):
+        self.end = int(time.time())
+    
+    def calculate_time(self):
+        self.time = self.end - self.start
+
+    def set_rounds(self, rounds):
+        self.rounds = rounds
     
     def set_difficulty(self, difficulty):
         self.difficulty = difficulty
@@ -127,16 +143,28 @@ class Game:
             self.set_player_operator(player_operator)
             self.set_player_number(player_number)
             if self.player_number != self.number:
-                print("the number is wrong")
+                time.sleep(1)
+                print("\nthe number is wrong\n")
             if self.player_operator != self.operator:
-                print("the operator is wrong")
-        print("Good job, You got them both right!")
+                time.sleep(1)
+                print("\nthe operator is wrong\n")
+        time.sleep(1)
+        print("\nGood job, You got them both right!\n")
         self.up_rounds()
         self.clear_player()
         self.set_new()
-game = Game(5)
-game.set_difficulty(input("Choose your difficulty: 1=easy 2=normal 3=hard: "))
-while game.player_rounds is not game.rounds:
-    game.play()
-print("You won!")
-
+    
+    def start_game(self):
+        self.set_start()
+        self.set_difficulty(input("Choose your difficulty: 1=easy 2=normal 3=hard: "))
+        self.set_rounds(input("Amount of rounds: "))
+        while self.player_rounds != self.rounds:
+            game.play()
+        self.set_end()
+        self.calculate_time()
+        print("\nCongratulations!\nYou won!")
+        calcs = calc.get_calculations()
+        print("It took you {} calculations and {} seconds".format(calcs, self.time))
+        
+game = Game(1)
+game.start_game()
