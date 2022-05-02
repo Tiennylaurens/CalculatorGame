@@ -12,6 +12,9 @@ class CalculatorGames:
     
     def get_status(self):
         return self.status
+    
+    def get_calculations(self):
+        return str(self.calculations)
 
     def add(self, num1, num2):
         result = num1 + num2
