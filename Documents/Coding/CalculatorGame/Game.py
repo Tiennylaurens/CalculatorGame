@@ -49,12 +49,19 @@ class Game:
         if self.difficulty == 1:
             self.number = randrange(1,11)
             self.operator = randrange(1,3)
-        if self.difficulty == 2:
+        elif self.difficulty == 2:
             self.number = randrange(1,21)
             self.operator = randrange(1,5)
-        if self.difficulty == 3:
+        elif self.difficulty == 3:
             self.number = randrange(1,51)
             self.operator = randrange(3,6)
+        
+        if self.rounds > self.player_rounds:
+            print("\nOn to the next one")
+            time.sleep(0.9)
+        else:
+            print("\nYou finished all the rounds")
+            time.sleep(0.9)
 
     def up_rounds(self):
         self.player_rounds += 1
@@ -121,36 +128,38 @@ class Game:
             act = float(result) % float(self.number)
         
         if operation == 1:
-            print("{} + {} = {}".format(num1, num2, act))
+            return("{} + {} = {}".format(num1, num2, act))
         elif operation == 2:
-            print("{} - {} = {}".format(num1, num2, act))
+            return("{} - {} = {}".format(num1, num2, act))
         elif operation == 3:
-            print("{} * {} = {}".format(num1, num2, act))
+            return("{} * {} = {}".format(num1, num2, act))
         elif operation == 4:
-            print("{} / {} = {}".format(num1, num2, act))
+            return("{} / {} = {}".format(num1, num2, act))
         elif operation == 5:
-            print("{} ^ {} = {}".format(num1, num2, act))
+            return("{} ^ {} = {}".format(num1, num2, act))
         else: 
-            print("{} % {} = {}".format(num1, num2, act))
+            return("{} % {} = {}".format(num1, num2, act))
     
     def play(self):
         while self.number != self.player_number or self.operator != self.player_operator:
-            self.calc()
+            print("\n{}".format(self.calc()))
             player_operator = input("\nWhat do you think the operator is: Add=1, Substract=2, Multiply=3, Divide=4, To the power of=5, Modulo=6: ")
             player_number = input("\nwhat do you think the number is: ")
             self.set_player_operator(player_operator)
             self.set_player_number(player_number)
             if self.player_number != self.number:
                 time.sleep(1)
-                print("\nthe number is wrong\n")
+                print("\nthe number is wrong")
             if self.player_operator != self.operator:
                 time.sleep(1)
-                print("\nthe operator is wrong\n")
-        time.sleep(1)
-        print("\nGood job, You got them both right!\n")
+                print("\nthe operator is wrong")
+        time.sleep(0.9)
+        print("\nGood job, You got them both right!")
+        time.sleep(0.9)
         self.up_rounds()
         self.clear_player()
         self.set_new()
+        
     
     def start_game(self):
         self.set_start()
