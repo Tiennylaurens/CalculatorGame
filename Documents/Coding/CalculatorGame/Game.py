@@ -166,11 +166,9 @@ class Game:
         self.set_difficulty(input("Choose your difficulty: 1=easy 2=normal 3=hard: "))
         self.set_rounds(input("Amount of rounds: "))
         while self.player_rounds != self.rounds:
-            game.play()
+            self.play()
         self.set_end()
         self.calculate_time()
         print("\nCongratulations!\nYou won!")
         print("It took you {} calculations and {} seconds".format(calc.get_calculations(), self.time))
         
-game = Game()
-game.start_game()
