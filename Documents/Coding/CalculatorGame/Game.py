@@ -5,8 +5,8 @@ import time
 calc = CalculatorGames(5)
 
 class Game:
-    def __init__(self, rounds):
-        self.rounds = rounds
+    def __init__(self):
+        self.rounds = 0
         self.player_rounds = 0
         self.number = None
         self.operator = None
@@ -40,8 +40,6 @@ class Game:
         if self.difficulty == 3:
             self.number = randrange(1,51)
             self.operator = randrange(3,6)
-
-
 
     def clear_player(self):
         self.player_operator = None
@@ -165,5 +163,5 @@ class Game:
         print("\nCongratulations!\nYou won!")
         print("It took you {} calculations and {} seconds".format(calc.get_calculations(), self.time))
         
-game = Game(1)
+game = Game()
 game.start_game()
