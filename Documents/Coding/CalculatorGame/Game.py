@@ -4,7 +4,7 @@ import time
 
 calc = CalculatorGames(5)
 
-class Game:
+class CalcGame:
     def __init__(self):
         self.rounds = 0
         self.player_rounds = 0
