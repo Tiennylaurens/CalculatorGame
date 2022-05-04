@@ -20,8 +20,9 @@ pygame.display.set_caption("Calculator Corruption")
 
 white = (255, 255, 255)
 black = (0,0,0)
+groen = (189, 236, 182)
 
-FPS = 60
+FPS = 45
 clock = pygame.time.Clock()
 
 #raw images
@@ -72,7 +73,7 @@ calc_x = middle - (calc_width / 2)
 #define function that makes calculation font
 def make_calc_font():
     calc_font = pygame.font.Font('freesansbold.ttf', lettergrote)
-    calc_text = calc_font.render(game.calculation, True, white, black)
+    calc_text = calc_font.render(game.calculation, True, black, groen)
     calcrect = calc_text.get_rect()
     calcrect.center = (450, 95)
     screen.blit(calc_text, calcrect)
@@ -99,6 +100,8 @@ def set_difficulty():
         game.set_difficulty(1)
     if button_2.draw(screen):
         game.set_difficulty(2)
+    if button_3.draw(screen):
+        game.set_difficulty(3)
 
 #set amount of rounds function 
 def set_amount_of_rounds():
@@ -167,7 +170,7 @@ def handle_game_logic():
 
 def draw_score():
     score_font = pygame.font.Font('freesansbold.ttf', lettergrote)
-    score_text = score_font.render("{}/{}".format(game.player_rounds, game.rounds), True, white, black)
+    score_text = score_font.render("{}/{}".format(game.player_rounds, game.rounds), True, black, white)
     scorerect = score_text.get_rect()
     scorerect.center = (50, 50)
     screen.blit(score_text, scorerect)
@@ -193,7 +196,7 @@ def draw_round_window():
     screen.blit(realcalc, (calc_x, 35))
     #set difficulty
     if not game.difficulty:
-        make_text_font("Select difficulty 1=Easy 2=Normal", 15)
+        make_text_font("Select difficulty 1=Easy 2=Normal 3=hard", 15)
         set_difficulty()
     #draw rounds
     if game.rounds:
@@ -240,8 +243,10 @@ def reset_status():
     status.started_game = False
     status.finished_first_tran = False
     status.finished_game = False
+    status.end_score_displayed = False 
     game.clear_rounds()
     game.clear_player()
+    game.clear_num_op()
 
 #define function that reset status number and operator variables
 def reset_calc():

@@ -30,6 +30,12 @@ class CalcGame:
         self.player_operator = None
         self.player_number = None
         self.player_rounds = 0
+        self.difficulty = None
+
+    def clear_num_op(self):
+        self.number = None
+        self.operator = None
+        self.calculation = None
 
     def set_new(self):
         if self.difficulty == 1:
@@ -38,6 +44,9 @@ class CalcGame:
         elif self.difficulty == 2:
             self.number = randrange(1,10)
             self.operator = randrange(1,5)
+        elif self.difficulty == 3:
+            self.number = randrange(1,10)
+            self.operator = randrange(3,4)
 
     def up_rounds(self):
         self.player_rounds += 1
@@ -67,10 +76,14 @@ class CalcGame:
             num2 = randrange(1,11)
         if self.difficulty == 2:
             num2 = randrange(1,21)
+        if self.difficulty == 3:
+            num2 = randrange(1,51)
 
         if self.difficulty == 1:
             operation = randrange(1,3)
         if self.difficulty == 2:
+            operation = randrange(1,5)
+        if self.difficulty == 3:
             operation = randrange(1,5)
 
         if operation == 1:
@@ -80,7 +93,9 @@ class CalcGame:
         elif operation == 3:
             result = calc.multiply(num1, num2)
         elif operation == 4:
-            result = calc.divide(num1, num2)
+            result = round(calc.divide(num1, num2), 4)
+        elif operation == 5:
+            result = calc.to_the_power(num1, num2)
         
         if self.operator == 1:
             act = float(result) + float(self.number)
@@ -90,6 +105,8 @@ class CalcGame:
             act = float(result) * float(self.number)
         elif self.operator == 4:
             act = float(result) / float(self.number)
+        elif self.operator == 5:
+            act = float(result) ** float(self.number)
         
         if operation == 1:
             return("{} + {} = {}".format(num1, num2, act))
@@ -98,7 +115,9 @@ class CalcGame:
         elif operation == 3:
             return("{} * {} = {}".format(num1, num2, act))
         elif operation == 4:
-            return("{} / {} = {}".format(num1, num2, act))
+            return("{} / {} = {}".format(num1, num2, round(act, calc.round_off), 4))
+        elif operation == 5:
+            return("{} ^ {} = {}".format(num1, num2, act))
     
     def new_play_window(self):
         self.set_new()
@@ -107,5 +126,3 @@ class CalcGame:
     def play_wrong(self):
         return self.calc()
 
-game = CalcGame()
-game.new_play_window()
