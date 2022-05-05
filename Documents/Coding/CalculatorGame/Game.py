@@ -13,12 +13,18 @@ class CalcGame:
         self.player_number = None
         self.player_operator = None
         self.calculation = None
+        self.prev_calc = None
+        self.prev_right = None
+        self.prev_wrong = None
 
     def clear_rounds(self):
         self.rounds = None
 
     def set_calculation(self, calc):
         self.calculation = calc
+    
+    def set_prev_calc(self, calc):
+        self.prev_calc = calc
 
     def set_difficulty(self, difficulty):
         self.difficulty = difficulty
@@ -31,6 +37,9 @@ class CalcGame:
         self.player_number = None
         self.player_rounds = 0
         self.difficulty = None
+        self.prev_calc = None
+        self.prev_right = None
+        self.prev_wrong = None
 
     def clear_num_op(self):
         self.number = None
@@ -46,7 +55,7 @@ class CalcGame:
             self.operator = randrange(1,5)
         elif self.difficulty == 3:
             self.number = randrange(1,10)
-            self.operator = randrange(3,4)
+            self.operator = randrange(1,5)
 
     def up_rounds(self):
         self.player_rounds += 1
@@ -84,7 +93,7 @@ class CalcGame:
         if self.difficulty == 2:
             operation = randrange(1,5)
         if self.difficulty == 3:
-            operation = randrange(1,5)
+            operation = randrange(3,5)
 
         if operation == 1:
             result = calc.add(num1, num2)

@@ -34,12 +34,15 @@ arrow_image = pygame.image.load(os.path.join("Assets", "Arrow.png")).convert_alp
 realcalc_image = pygame.image.load(os.path.join("Assets", "realcalc.png")).convert_alpha()
 exit_image = pygame.image.load(os.path.join("Assets", "exit_btn.png")).convert_alpha()
 blank_image = pygame.image.load(os.path.join("Assets", "blank.png")).convert_alpha()
-
+correct_image = pygame.image.load(os.path.join("Assets", "correct.png")).convert_alpha()
+false_image = pygame.image.load(os.path.join("Assets", "false.png")).convert_alpha()
 #scaled and rotated images
 calculator_orange = pygame.transform.scale(calculator_image_orange, (300, 300))
 left_arrow = pygame.transform.scale(arrow_image, (transition_width, transition_height))
 right_arrow = pygame.transform.rotate((pygame.transform.scale(arrow_image, (transition_width, transition_height))), 180)
 realcalc = pygame.transform.scale(realcalc_image, (realcalc_image.get_width() * calc_scale, realcalc_image.get_height()* calc_scale))
+correct = pygame.transform.scale(correct_image, (75, 75))
+false = pygame.transform.scale(false_image, (75, 75))
 
 #define button instances 
 start_button = Buttons(384, 400, start_image, 0.2)
@@ -157,14 +160,19 @@ def handle_game_logic():
             game.set_player_number(9)
         
     if game.player_number and game.player_operator:
+        game.set_prev_calc(game.calculation)
         if game.player_number == game.number and game.player_operator == game.operator:
             reset_calc()
             game.up_rounds()
+            game.prev_right = True
+            game.prev_wrong = None
             if game.player_rounds == game.rounds:
                 status.set_finished()
             else: 
                 game.set_calculation(game.new_play_window())
         else:
+            game.prev_wrong = True
+            game.prev_right = None
             reset_calc()
             game.set_calculation(game.play_wrong())
 
@@ -199,6 +207,10 @@ def draw_round_window():
         make_text_font("Select difficulty 1=Easy 2=Normal 3=hard", 15)
         set_difficulty()
     #draw rounds
+    if game.prev_right:
+        screen.blit(correct, (40, 100))
+    if game.prev_wrong:
+        screen.blit(false, (40,100))
     if game.rounds:
         draw_score()
     #set first calculation
@@ -212,6 +224,12 @@ def draw_round_window():
     if game.rounds:
         #adding text for calculation
         make_calc_font()
+        if game.prev_calc:
+            text_font = pygame.font.Font('freesansbold.ttf', 24)
+            text = text_font.render(game.prev_calc, True, white, black)
+            textrect = text.get_rect()
+            textrect.center = (100, 250)
+            screen.blit(text, textrect)
         #hanlding game logic
         handle_game_logic()
     if status.finished_game:
