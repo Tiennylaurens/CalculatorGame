@@ -1,5 +1,5 @@
 
-import pygame, os, time
+import pygame, os, time, sys
 from Button import Buttons
 from Game import CalcGame
 from tracker import Status
@@ -61,6 +61,14 @@ button_mult = Buttons(531.5, 228, blank_image, 0.0327)
 button_sub = Buttons(531.5, 305, blank_image, 0.0327)
 button_add = Buttons(531.5, 382, blank_image, 0.0327)
 
+def resource_path(relative_path):
+    try:
+    # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 #define game instance
 game = CalcGame()
@@ -75,7 +83,7 @@ calc_x = middle - (calc_width / 2)
 
 #define function that makes calculation font
 def make_calc_font():
-    calc_font = pygame.font.Font('freesansbold.ttf', lettergrote)
+    calc_font = pygame.font.SysFont('freesansbold.ttf', lettergrote)
     calc_text = calc_font.render(game.calculation, True, black, groen)
     calcrect = calc_text.get_rect()
     calcrect.center = (450, 95)
@@ -83,7 +91,7 @@ def make_calc_font():
 
 #define function that makes text font
 def make_text_font(words, lettertype):
-    text_font = pygame.font.Font('freesansbold.ttf', lettertype)
+    text_font = pygame.font.SysFont('freesansbold.ttf', lettertype)
     text = text_font.render(words, True, white, black)
     textrect = text.get_rect()
     textrect.center = (450, 95)
@@ -91,7 +99,7 @@ def make_text_font(words, lettertype):
 
 #define funciton that makes end font
 def make_end_font():   
-    end_font = pygame.font.Font('freesansbold.ttf', 60)
+    end_font = pygame.font.SysFont('freesansbold.ttf', 60)
     end_text = end_font.render("Congraulations You Won!", True, white, black)
     endrect = end_text.get_rect()
     endrect.center = (450, 100)
@@ -129,6 +137,8 @@ def set_amount_of_rounds():
 
 #define function that handles the game logic
 def handle_game_logic():
+    if game.faults == 3:
+        status.set_finished()
     if not game.player_operator:
         if button_add.draw(screen):
             game.set_player_operator(1)
@@ -173,11 +183,19 @@ def handle_game_logic():
         else:
             game.prev_wrong = True
             game.prev_right = None
+            game.up_faults()
             reset_calc()
             game.set_calculation(game.play_wrong())
 
+def draw_lives():
+    score_font = pygame.font.SysFont('freesansbold.ttf', 30)
+    score_text = score_font.render("{}/3 Lives".format(3 - game.faults), True, black, white)
+    scorerect = score_text.get_rect()
+    scorerect.center = (800, 50)
+    screen.blit(score_text, scorerect)
+
 def draw_score():
-    score_font = pygame.font.Font('freesansbold.ttf', lettergrote)
+    score_font = pygame.font.SysFont('freesansbold.ttf', lettergrote)
     score_text = score_font.render("{}/{}".format(game.player_rounds, game.rounds), True, black, white)
     scorerect = score_text.get_rect()
     scorerect.center = (50, 50)
@@ -213,6 +231,7 @@ def draw_round_window():
         screen.blit(false, (40,100))
     if game.rounds:
         draw_score()
+        draw_lives()
     #set first calculation
     if not game.calculation:
        game.set_calculation(game.new_play_window())
@@ -225,7 +244,7 @@ def draw_round_window():
         #adding text for calculation
         make_calc_font()
         if game.prev_calc:
-            text_font = pygame.font.Font('freesansbold.ttf', 24)
+            text_font = pygame.font.SysFont('freesansbold.ttf', 24)
             text = text_font.render(game.prev_calc, True, white, black)
             textrect = text.get_rect()
             textrect.center = (100, 250)
@@ -234,14 +253,25 @@ def draw_round_window():
         handle_game_logic()
     if status.finished_game:
         #start transition
-        if not status.end_score_displayed:
-            make_end_font()
-            draw_score()
-            pygame.display.update()
-            time.sleep(2)
-            status.set_end_score()
-        if status.end_score_displayed:
-            transition()
+        if game.player_rounds == game.rounds: 
+            if not status.end_score_displayed:
+                make_end_font()
+                draw_score()
+                pygame.display.update()
+                time.sleep(2)
+                status.set_end_score()
+            if status.end_score_displayed:
+                transition()
+        else: 
+            if not status.end_score_displayed:
+                make_text_font("You lost", 40)
+                pygame.display.update()
+                time.sleep(2)
+                status.set_end_score()
+            if status.end_score_displayed:
+                transition()
+
+
     pygame.display.update()
 
 #define function that draws a transition for the menu screen 

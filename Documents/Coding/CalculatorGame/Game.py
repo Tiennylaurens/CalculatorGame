@@ -16,6 +16,10 @@ class CalcGame:
         self.prev_calc = None
         self.prev_right = None
         self.prev_wrong = None
+        self.faults = 0
+
+    def up_faults(self):
+        self.faults += 1
 
     def clear_rounds(self):
         self.rounds = None
@@ -40,6 +44,7 @@ class CalcGame:
         self.prev_calc = None
         self.prev_right = None
         self.prev_wrong = None
+        self.faults = 0
 
     def clear_num_op(self):
         self.number = None
@@ -113,7 +118,7 @@ class CalcGame:
         elif self.operator == 3:
             act = float(result) * float(self.number)
         elif self.operator == 4:
-            act = float(result) / float(self.number)
+            act = round(float(result) / float(self.number),4)
         elif self.operator == 5:
             act = float(result) ** float(self.number)
         
