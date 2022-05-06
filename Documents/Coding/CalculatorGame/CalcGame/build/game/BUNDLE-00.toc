@@ -1,0 +1,3 @@
+([('game',
+   '/Users/tiennylaurens/Documents/Coding/CalculatorGame/dist/game',
+   'EXECUTABLE')],)
